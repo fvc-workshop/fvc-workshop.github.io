@@ -154,16 +154,15 @@
                 <div class="trend-entry d-flex">
                     <div class="trend-contents">
                         <p>
-                            This challenge aims to perform efficient and accurate portrait matting in videos, which can be
-                            applied to real video conferencing scenarios such as setting virtual background. To this end, we
-                            collect the data from a group of volunteers using green background. We ask each volunteer to conduct
-                            one freestyle action and several standard actions, including left/right moving, back/forth walking,
-                            left/right twisting, flicking hair, waving hand before the face, before the camera. We finally
-                            acquire videos with a total length over half an hour, 25 fps, a scale of 1080P. Each record video
-                            is well trimmed and Adobe After Effect is employed to extract ground-truth foreground portrait
-                            and alpha matte for each frame. Competitors are welcome to utilize the provided data to
-                            perform data augmentation and build their own training data. Similar to image matting, several popular metrics such
-                            as MSE, SAD, are used to evaluate the performance.
+                            This challenge aims to perform efficient and accurate portrait matting in videos, 
+                            which can be applied to real video conferencing scenarios such as setting virtual background. 
+                            To this end, we collect 320 videos from real-world video conferencing scenarios using VooV Meeting 
+                            and annotate the alpha matte at 5~6 fps. This portrait matting dataset covers 
+                            a wide range of scenarios from both indoor scenes (e.g., office, bedroom) and outdoor scenes (e.g., park, street). 
+                            Similar to image matting, several popular metrics such as MSE and SAD are used to evaluate the performance, 
+                            and MSE is used as the key metric for ranking.  The entire dataset is divided into training (220), 
+                            validation (50) and testing (50) sets. More details can be found at 
+                            <a href="https://competitions.codalab.org/competitions/30523">https://competitions.codalab.org/competitions/30523</a>
                         </p>
                         <!-- </br> -->
                     </div>
@@ -181,25 +180,61 @@
                     <div class="trend-contents">
                         <!-- <p> Beyond object segmentation, background categories such as wall, road, sky need to be further specified for the scene parsing, which is a challenging task compared with object semantic segmentation. Thus, it will be more difficult and expensive to manually annotate pixel-level mask for this task. In this track, we propose to leverage several labeled points that are much easier to obtain to guide the training process.
       The dataset is built upon the well-known ADE20K, which includes 20,210 training images from 150 categories. We provide the point-based annotations on the training set. Please download the data from <a href="http://sceneparsing.csail.mit.edu/data/LID2019"> LID Challenge Track2 data </a>. <br/> -->
-                        <p> 
-                            This challenge aims to develop new image/video pre-editing methods for human-centric frame
-                            reconstruction jointly with the related analysis, i.e. action recognition, which provides the
-                            technical basis for highly efficient video compression and transmission for conferencing
-                            scenarios. The competitors are allowed to pre-edit video frames. Then, we will compress these
-                            frames with the same bit-rate constraint with existing codecs, e.g. HEVC, and calculate the
-                            evaluation metrics on the decoded frames. To this end, PKU-MMD is adopted as an evaluation
-                            dataset. PKU-MMD phase 1 contains 1076 long video sequences in 51 action categories,
-                            performed by 66 subjects in three camera views. It contains almost 20,000 action instances and
-                            5.4 million frames in total. Each video lasts about 3-4 minutes (recording ratio set to 30 FPS)
-                            and contains approximately 20 action instances. The total scale of our dataset is 5,312,580
-                            frames of 3,000 minutes with 21,545 temporally localized actions. In this challenge, we will
-                            select the video sequences of 10 action categories for training and testing. In the evaluation, we
-                            will calculate two kinds of metrics on the decoded results of the pre-editing videos: human
-                            region frame reconstruction error and action recognition accuracy. For the former, for a frame,
-                            we will calculate PSNR and SSIM results of the regions in the bounding boxes that tightly
-                            enclose persons. For the latter, common metrics such as F1-Score, Interpolated Average
-                            Precision, Mean Average Precision of Actions, Mean Average Precision of Videos are used to
-                            evaluate the performance.
+                        <p>
+                            This challenge aims to develop new image/video pre-editing methods for human-centric frame reconstruction 
+                            jointly with the related analytics, which provides the technical basis for highly efficient video compression 
+                            and transmission for conferencing scenarios. To this end, PKU-MMD is adopted as an evaluation dataset. 
+                            The dataset features human-centric videos, captured in indoor scenes. In this challenge, 
+                            we select the video sequences of 10 action categories for training and testing. In the evaluation, 
+                            we will calculate two kinds of metrics on the decoded results of the pre-editing videos: 
+                            human region frame reconstruction error and human analytics accuracy. For the former, for a frame, 
+                            we will calculate PSNR and SSIM results of the regions in the bounding boxes that tightly enclose persons. 
+                            For the latter, we will evaluate human analytics performances using state-of-the-art methods on the reconstructed videos.
+                        </p>
+                        <p>
+                            We have released the training and validation splits of the dataset, both of which can be downloaded from 
+                            <a href="https://drive.google.com/drive/folders/1gD5_64pqbnRN835u9IVibJj5l55PO7lF?usp=sharing">Google Drive</a> 
+                            and <a href="https://pkueducn-my.sharepoint.com/:f:/g/personal/huyy_pku_edu_cn/Eqwz7opeIFJIu1zJwL-JWWoB_ZMiy6BtL8m02bZNd2d5qQ?e=UaE84u">Microsoft OneDrive</a>. 
+                            All videos and images are 512x512 in resolutions. Properties of all splits are summarized below:
+                        </p>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col"> Split</th>
+                                <th scope="col"> Clips</th>
+                                <th scope="col"> Frames</th>
+                                <th scope="col"> Codec</th>
+                            </tr>
+                            </thead>
+                            <tbody> 
+                            <tr>
+                                <td>Train</td>
+                                <td>1,128</td>
+                                <td>109,624</td>
+                                <td>HEVC QP=1</td>
+                            </tr> 
+                            <tr>
+                                <td>Validation</td>
+                                <td>125</td>
+                                <td>13,411</td>
+                                <td>HEVC QP=1</td>
+                            </tr>
+                            <tr>
+                                <td>Test</td>
+                                <td>176</td>
+                                <td>16,861</td>
+                                <td>JPEG QF=2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            The training and validation set are encoded with x265. We set QP=1 when we encode the frames to video. 
+                            Such settings guarantee all videos are visually losslessly encoded. The testing split is provided in frames. 
+                            We set QF=2 to guarantee visual losslessness. Participants are required to submit exactly the same number of frames, 
+                            either in JPEG or PNG, as the testing set provides. The competitors are allowed to pre-edit video frames. 
+                            Then, we will compress these frames with the same bit-rate constraint with existing codecs, e.g. HEVC, 
+                            and calculate the evaluation metrics on the decoded frames. More details can be found at 
+                            <a href="https://competitions.codalab.org/competitions/30111">https://competitions.codalab.org/competitions/30111</a>
                         </p>
                     </div>
                 </div>
